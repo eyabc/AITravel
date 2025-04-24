@@ -1,3 +1,12 @@
+plugins {
+    id("org.springframework.boot")
+    id("io.spring.dependency-management")
+}
+
+repositories {
+    mavenCentral()
+}
+
 dependencies {
     implementation(project(":common"))
     implementation(project(":domain-user"))

@@ -16,7 +16,10 @@ allprojects {
 subprojects {
     apply(plugin = "java")
 
-    java.sourceCompatibility = JavaVersion.VERSION_21
+    extensions.configure<JavaPluginExtension> {
+        sourceCompatibility = JavaVersion.VERSION_21
+        targetCompatibility = JavaVersion.VERSION_21
+    }
 
     tasks.withType<Test> {
         useJUnitPlatform()
