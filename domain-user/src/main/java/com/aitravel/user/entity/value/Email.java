@@ -1,7 +1,11 @@
 package com.aitravel.user.entity.value;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
-import lombok.*;
+import lombok.AccessLevel;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @Embeddable
 @EqualsAndHashCode
@@ -9,6 +13,7 @@ import lombok.*;
 @Getter
 public class Email {
 
+  @Column(name = "email")
   private String value;
 
   private Email(String value) {

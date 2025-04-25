@@ -1,5 +1,6 @@
 package com.aitravel.user.entity.value;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
 import lombok.*;
 
@@ -11,6 +12,7 @@ import java.util.Locale;
 @Getter
 public class PreferredLanguage {
 
+  @Column(name = "preferredLanguage")
   private String languageTag; // 'en', 'ko', 'fr-FR' 등
 
   private PreferredLanguage(String languageTag) {

@@ -1,5 +1,6 @@
 package com.aitravel.user.entity.value;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
 import lombok.*;
 
@@ -9,6 +10,7 @@ import lombok.*;
 @Getter
 public class Password {
 
+  @Column(name = "password")
   private String hashed;
 
   private Password(String hashed) {

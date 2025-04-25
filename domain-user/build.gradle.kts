@@ -14,6 +14,10 @@ dependencies {
     implementation("org.postgresql:postgresql")
     implementation("org.springframework.boot:spring-boot-starter-validation")
 
-    compileOnly("org.projectlombok:lombok:1.18.38")
+    compileOnly("org.projectlombok:lombok")
+    annotationProcessor("org.projectlombok:lombok") // 💡 필수!
+
+    runtimeOnly("com.h2database:h2")
+    testImplementation("org.springframework.boot:spring-boot-starter-test")
 
 }
