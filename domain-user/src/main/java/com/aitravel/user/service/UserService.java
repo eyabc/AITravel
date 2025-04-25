@@ -8,8 +8,6 @@ import com.aitravel.user.repository.UserRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Optional;
-
 @Service
 @Transactional(readOnly = true)
 public class UserService {
@@ -21,8 +19,9 @@ public class UserService {
   }
 
   // ✅ 사용자 조회 (by 이메일)
-  public Optional<User> findByEmail(String email) {
-    return userRepository.findByEmail(Email.of(email));
+  public User findByEmailOrThrow(String email) {
+    return userRepository.findByEmail(Email.of(email))
+      .orElseThrow(() -> new IllegalArgumentException("User not found: " + email));
   }
 
   // ✅ 사용자 등록 (회원가입)
