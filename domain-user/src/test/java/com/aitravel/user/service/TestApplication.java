@@ -1,4 +1,4 @@
-package com.aitravel;
+package com.aitravel.user.service;
 
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 

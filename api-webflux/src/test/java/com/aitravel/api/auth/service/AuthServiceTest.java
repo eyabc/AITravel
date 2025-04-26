@@ -1,11 +1,12 @@
 package com.aitravel.api.auth.service;
 
+import com.aitravel.api.auth.dto.LoginRequest;
+import com.aitravel.api.auth.exception.InvalidEmailException;
+import com.aitravel.api.auth.exception.InvalidPasswordException;
+import com.aitravel.api.auth.jwt.JwtTokenProvider;
 import com.aitravel.user.entity.User;
-import com.aitravel.user.entity.value.Email;
-import com.aitravel.user.entity.value.Password;
-import com.aitravel.user.entity.value.PreferredLanguage;
-import com.aitravel.user.repository.UserRepository;
 import com.aitravel.user.service.UserService;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
@@ -13,60 +14,67 @@ import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 class AuthServiceTest {
 
+  private final UserService userService = mock(UserService.class);
+  private final JwtTokenProvider jwtTokenProvider = mock(JwtTokenProvider.class);
 
-  private final UserRepository userRepository = mock(UserRepository.class);
-  private final UserService userService = new UserService(userRepository);
-  private final AuthService authService = new AuthService(userService);
+  private final AuthService authService = new AuthService(userService, jwtTokenProvider);
 
   @Nested
-  class 로그인_성공_케이스 {
-    @Test
-    void 로그인_성공_토큰_반환() {
-      // given
-      Email email = Email.of("test@example.com");
-      Password password = Password.fromRaw("password123");
-      PreferredLanguage language = PreferredLanguage.from("en");
-      User mockUser = User.register(email, password, language);
+  @DisplayName("로그인 테스트")
+  class LoginTest {
 
-      when(userRepository.findByEmail(email)).thenReturn(Optional.of(mockUser));
+    @Test
+    @DisplayName("성공: 올바른 이메일과 비밀번호로 로그인")
+    void 로그인_성공() {
+      // given
+      String mail = "test@example.com";
+      String password123 = "password123";
+      User user = mock(User.class);
+
+      when(userService.findByEmail(anyString())).thenReturn(Optional.of(user));
+      when(user.authenticate(anyString())).thenReturn(true);
+      when(jwtTokenProvider.generateToken(anyLong())).thenReturn("fake-jwt-token");
 
       // when
-      String token = authService.login("test@example.com", "password123");
+      String token = authService.login(mail, password123);
 
       // then
-      assertThat(token).startsWith("dummy-jwt-token");
-    }
-
-  }
-
-  @Nested
-  class 로그인_실패_케이스 {
-    @Test
-    void 로그인_실패_이메일없음() {
-      when(userRepository.findByEmail(any())).thenReturn(Optional.empty());
-
-      assertThatThrownBy(() -> authService.login("no-user@example.com", "password123")).isInstanceOf(IllegalArgumentException.class).hasMessageContaining("User not found");
+      assertThat(token).isEqualTo("fake-jwt-token");
     }
 
     @Test
-    void 로그인_실패_비밀번호불일치() {
-      Email email = Email.of("test@example.com");
-      Password password = Password.fromRaw("correct-password");
-      PreferredLanguage lang = PreferredLanguage.from("en");
-      User user = User.register(email, password, lang);
+    @DisplayName("실패: 존재하지 않는 이메일")
+    void 로그인_이메일_없음() {
+      // given
+      String mail = "wrong@example.com";
+      String password123 = "password123";
 
-      when(userRepository.findByEmail(email)).thenReturn(Optional.of(user));
+      when(userService.findByEmail(anyString())).thenReturn(Optional.empty());
 
-      assertThatThrownBy(() -> authService.login("test@example.com", "wrong-password")).isInstanceOf(IllegalArgumentException.class).hasMessageContaining("Invalid password");
+      // when & then
+      assertThatThrownBy(() -> authService.login(mail, password123))
+        .isInstanceOf(InvalidEmailException.class);
     }
 
+    @Test
+    @DisplayName("실패: 비밀번호 불일치")
+    void 로그인_비밀번호_틀림() {
+      // given
+      String mail = "test@example.com";
+      String wrongpassword = "wrongpassword";
+      LoginRequest loginRequest = new LoginRequest(mail, wrongpassword);
+      User user = mock(User.class);
 
+      when(userService.findByEmail(anyString())).thenReturn(Optional.of(user));
+      when(user.authenticate(anyString())).thenReturn(false);
+
+      // when & then
+      assertThatThrownBy(() -> authService.login(mail, wrongpassword))
+        .isInstanceOf(InvalidPasswordException.class);
+    }
   }
-
 }

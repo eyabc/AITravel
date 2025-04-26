@@ -5,11 +5,15 @@ import com.aitravel.user.entity.User;
 import com.aitravel.user.repository.UserRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.boot.autoconfigure.domain.EntityScan;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-@DataJpaTest
+@EntityScan(basePackages = "com.aitravel.user.entity")
+@SpringBootTest
+@EnableJpaRepositories(basePackages = "com.aitravel.user.repository")
 class UserServiceTest {
 
   @Autowired
