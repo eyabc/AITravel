@@ -1,10 +1,11 @@
 package com.aitravel.api.auth.config;
 
-import com.aitravel.api.auth.jwt.JwtTokenProvider;
 import com.aitravel.api.auth.jwt.JwtAuthenticationFilter;
+import com.aitravel.api.auth.jwt.JwtTokenProvider;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.config.web.server.SecurityWebFiltersOrder;
 import org.springframework.security.config.web.server.ServerHttpSecurity;
 import org.springframework.security.web.server.SecurityWebFilterChain;
 
@@ -25,7 +26,7 @@ public class SecurityConfig {
         .anyExchange().authenticated()
       )
       .addFilterAt(new JwtAuthenticationFilter(jwtTokenProvider),
-        SecurityWebFilterChain.FilterOrder.AUTHENTICATION)
+        SecurityWebFiltersOrder.AUTHENTICATION)
       .build();
   }
 }
