@@ -1,5 +1,6 @@
 package com.aitravel.api.auth.service;
 
+import com.aitravel.api.auth.jwt.JwtTokenProvider;
 import com.aitravel.user.entity.User;
 import com.aitravel.user.service.UserService;
 import lombok.RequiredArgsConstructor;
@@ -10,6 +11,8 @@ import org.springframework.stereotype.Service;
 public class AuthService {
 
   private final UserService userService;
+  private final JwtTokenProvider jwtTokenProvider;
+
 
   public String login(String email, String rawPassword) {
     User user = userService.findByEmailOrThrow(email);
@@ -18,6 +21,6 @@ public class AuthService {
       throw new IllegalArgumentException("Invalid password");
     }
 
-    return "dummy-jwt-token-for-user-" + user.getId();
+    return jwtTokenProvider.generateToken(user.getId());
   }
 }

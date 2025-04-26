@@ -1,11 +1,3 @@
-# src/main/resources/application.yml (or .properties)
-spring:
-  datasource:
-    url: jdbc:h2:mem:testdb
-    driver-class-name: org.h2.Driver
-    username: sa
-    password:
-  jpa:
-    hibernate:
-      ddl-auto: update
-    show-sql: true
+jwt:
+  secret: my-very-secret-jwt-key-for-ai-travel-app-2025
+  expiration: 3600000 # 1시간 (ms)
