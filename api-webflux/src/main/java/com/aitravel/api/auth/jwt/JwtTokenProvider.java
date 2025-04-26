@@ -41,4 +41,15 @@ public class JwtTokenProvider {
       .signWith(secretKey)
       .compact();
   }
+
+  public Long getUserIdFromToken(String token) {
+    return Long.valueOf(
+      Jwts.parser()
+        .verifyWith(secretKey)
+        .build()
+        .parseSignedClaims(token)
+        .getPayload()
+        .getSubject()
+    );
+  }
 }
