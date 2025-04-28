@@ -18,7 +18,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.Mockito.*;
 
-class AuthServiceTest {
+class AuthControllerTest {
 
   private final UserService userService = mock(UserService.class);
   private final JwtTokenProvider jwtTokenProvider = mock(JwtTokenProvider.class);
@@ -40,7 +40,7 @@ class AuthServiceTest {
 
       when(userService.findByEmail(anyString())).thenReturn(Optional.of(user));
       when(user.authenticate(anyString())).thenReturn(true);
-      when(jwtTokenProvider.generateToken(anyLong())).thenReturn("fake-jwt-token");
+      when(jwtTokenProvider.generateAccessToken(anyLong())).thenReturn("fake-jwt-token");
 
       // when
       String token = authService.login(mail, password123);

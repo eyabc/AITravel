@@ -30,7 +30,7 @@ public class JwtTokenProvider {
     );
   }
 
-  public String generateToken(Long userId) {
+  public String generateAccessToken(Long userId) {
     Date now = new Date();
     Date expiry = new Date(now.getTime() + jwtProperties.getExpiration());
 

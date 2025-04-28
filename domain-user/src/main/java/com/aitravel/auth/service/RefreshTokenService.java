@@ -6,6 +6,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -24,6 +25,10 @@ public class RefreshTokenService {
   public RefreshToken findByToken(String token) {
     return refreshTokenRepository.findByToken(token)
       .orElseThrow(() -> new IllegalArgumentException("Refresh Token not found"));
+  }
+
+  public Optional<RefreshToken> findByUserId(Long userId) {
+    return refreshTokenRepository.findByUserId(userId);
   }
 
   public void deleteByUserId(Long userId) {

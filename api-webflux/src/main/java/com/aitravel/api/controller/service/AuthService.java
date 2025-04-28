@@ -27,7 +27,7 @@ public class AuthService {
     }
 
     // ✅ AccessToken + RefreshToken 발급
-    String accessToken = jwtTokenProvider.generateToken(user.getId());
+    String accessToken = jwtTokenProvider.generateAccessToken(user.getId());
     String refreshToken = jwtTokenProvider.generateRefreshToken(user.getId());
 
     // ✅ RefreshToken 저장 (DB)
