@@ -1,4 +1,4 @@
-package com.aitravel.api.auth.dto;
+package com.aitravel.api.controller.dto;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;

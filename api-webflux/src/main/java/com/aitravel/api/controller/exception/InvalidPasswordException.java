@@ -1,4 +1,4 @@
-package com.aitravel.api.auth.exception;
+package com.aitravel.api.controller.exception;
 
 public class InvalidPasswordException extends RuntimeException {
   public InvalidPasswordException(String message) {

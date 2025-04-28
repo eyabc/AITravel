@@ -1,9 +1,11 @@
 package com.aitravel.api.auth.service;
 
-import com.aitravel.api.auth.dto.LoginRequest;
-import com.aitravel.api.auth.exception.InvalidEmailException;
-import com.aitravel.api.auth.exception.InvalidPasswordException;
-import com.aitravel.api.auth.jwt.JwtTokenProvider;
+import com.aitravel.api.controller.dto.LoginRequest;
+import com.aitravel.api.controller.exception.InvalidEmailException;
+import com.aitravel.api.controller.exception.InvalidPasswordException;
+import com.aitravel.api.controller.jwt.JwtTokenProvider;
+import com.aitravel.api.controller.service.AuthService;
+import com.aitravel.auth.service.RefreshTokenService;
 import com.aitravel.user.entity.User;
 import com.aitravel.user.service.UserService;
 import org.junit.jupiter.api.DisplayName;
@@ -20,8 +22,9 @@ class AuthServiceTest {
 
   private final UserService userService = mock(UserService.class);
   private final JwtTokenProvider jwtTokenProvider = mock(JwtTokenProvider.class);
+  private final RefreshTokenService refreshTokenService = mock(RefreshTokenService.class);
+  private final AuthService authService = new AuthService(userService, jwtTokenProvider, refreshTokenService);
 
-  private final AuthService authService = new AuthService(userService, jwtTokenProvider);
 
   @Nested
   @DisplayName("로그인 테스트")

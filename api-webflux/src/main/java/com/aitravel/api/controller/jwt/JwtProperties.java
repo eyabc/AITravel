@@ -1,4 +1,4 @@
-package com.aitravel.api.auth.jwt;
+package com.aitravel.api.controller.jwt;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Configuration;

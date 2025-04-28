@@ -1,3 +1,9 @@
+spring:
+  application:
+    name: api-webflux
+
 jwt:
   secret: my-very-secret-jwt-key-for-ai-travel-app-2025
   expiration: 3600000 # 1시간 (ms)
+
+

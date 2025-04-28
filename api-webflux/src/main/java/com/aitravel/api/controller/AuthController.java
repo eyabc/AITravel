@@ -1,9 +1,9 @@
-package com.aitravel.api.auth;
+package com.aitravel.api.controller;
 
 
-import com.aitravel.api.auth.dto.LoginRequest;
-import com.aitravel.api.auth.dto.LoginResponse;
-import com.aitravel.api.auth.service.AuthService;
+import com.aitravel.api.controller.dto.LoginRequest;
+import com.aitravel.api.controller.dto.LoginResponse;
+import com.aitravel.api.controller.service.AuthService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;

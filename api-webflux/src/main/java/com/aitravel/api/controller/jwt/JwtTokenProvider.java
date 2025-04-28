@@ -1,4 +1,4 @@
-package com.aitravel.api.auth.jwt;
+package com.aitravel.api.controller.jwt;
 
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
@@ -7,8 +7,10 @@ import org.springframework.stereotype.Component;
 
 import javax.crypto.SecretKey;
 import java.nio.charset.StandardCharsets;
-import java.util.Date;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.Base64;
+import java.util.Date;
 
 @Component
 public class JwtTokenProvider {
@@ -53,6 +55,17 @@ public class JwtTokenProvider {
     );
   }
 
+  public String generateRefreshToken(Long userId) {
+    LocalDateTime expiry = LocalDateTime.now().plusDays(7);
+
+    return Jwts.builder()
+      .subject(userId.toString())
+      .issuedAt(new Date())
+      .expiration(Date.from(expiry.atZone(ZoneId.systemDefault()).toInstant()))
+      .signWith(secretKey)
+      .compact();
+  }
+
   public boolean isValidToken(String token) {
     try {
       Jwts.parser()
@@ -63,6 +76,10 @@ public class JwtTokenProvider {
     } catch (Exception e) {
       return false; // 파싱 실패시 유효하지 않음
     }
+  }
+
+  public LocalDateTime getRefreshTokenExpiration() {
+    return LocalDateTime.now().plusDays(7);
   }
 
 }

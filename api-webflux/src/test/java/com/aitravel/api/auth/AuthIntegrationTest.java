@@ -1,6 +1,6 @@
 package com.aitravel.api.auth;
 
-import com.aitravel.api.auth.dto.LoginRequest;
+import com.aitravel.api.controller.dto.LoginRequest;
 import com.aitravel.user.entity.User;
 import com.aitravel.user.repository.UserRepository;
 import org.junit.jupiter.api.BeforeEach;

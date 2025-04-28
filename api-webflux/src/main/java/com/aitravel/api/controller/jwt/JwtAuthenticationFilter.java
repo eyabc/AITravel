@@ -1,4 +1,4 @@
-package com.aitravel.api.auth.jwt;
+package com.aitravel.api.controller.jwt;
 
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -14,7 +14,6 @@ import java.util.List;
 
 public class JwtAuthenticationFilter implements WebFilter {
 
-  private static final String TOKEN_PREFIX = "Bearer ";
   private final JwtTokenProvider jwtTokenProvider;
 
   public JwtAuthenticationFilter(JwtTokenProvider jwtTokenProvider) {
