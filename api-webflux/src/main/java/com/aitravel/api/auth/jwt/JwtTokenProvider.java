@@ -52,4 +52,17 @@ public class JwtTokenProvider {
         .getSubject()
     );
   }
+
+  public boolean isValidToken(String token) {
+    try {
+      Jwts.parser()
+        .verifyWith(secretKey)
+        .build()
+        .parseSignedClaims(token); // 파싱이 성공하면 유효
+      return true;
+    } catch (Exception e) {
+      return false; // 파싱 실패시 유효하지 않음
+    }
+  }
+
 }

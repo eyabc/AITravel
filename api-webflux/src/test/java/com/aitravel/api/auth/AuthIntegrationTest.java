@@ -9,9 +9,13 @@ import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.web.reactive.server.WebTestClient;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
+import org.springframework.test.web.reactive.server.WebTestClient;
+
+import java.util.concurrent.atomic.AtomicReference;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 class AuthIntegrationTest {
@@ -39,20 +43,26 @@ class AuthIntegrationTest {
     @Test
     @DisplayName("성공: 로그인 → 토큰 발급 → 인증 API 호출 성공")
     void 로그인_성공_후_인증_성공() {
-      // 로그인 요청
-      String token = webTestClient.post()
+      // 로그인 요청 → 토큰 추출
+      AtomicReference<String> tokenRef = new AtomicReference<>();
+
+      webTestClient.post()
         .uri("/api/v1/auth/login")
         .contentType(MediaType.APPLICATION_JSON)
         .bodyValue(new LoginRequest("test@example.com", "password123"))
         .exchange()
         .expectStatus().isOk()
-        .expectBody(String.class)
-        .returnResult()
-        .getResponseBody();
+        .expectBody()
+        .jsonPath("$.token").value(token -> {
+          assertThat(token).isInstanceOf(String.class);
+          tokenRef.set((String) token);
+        });
 
-      // 토큰으로 인증 필요한 API 호출
+      String token = tokenRef.get();
+
+      // 토큰으로 보호된 API 호출
       webTestClient.get()
-        .uri("/api/v1/protected") // 테스트용 보호된 엔드포인트
+        .uri("/api/v1/protected")
         .header(HttpHeaders.AUTHORIZATION, "Bearer " + token)
         .exchange()
         .expectStatus().isOk();
@@ -63,9 +73,10 @@ class AuthIntegrationTest {
     void 잘못된_토큰_인증_실패() {
       webTestClient.get()
         .uri("/api/v1/protected")
-        .header(HttpHeaders.AUTHORIZATION, "Bearer " + "invalid.token.here")
+        .header(HttpHeaders.AUTHORIZATION, "Bearer invalid.token.here")
         .exchange()
         .expectStatus().isUnauthorized();
     }
   }
+
 }

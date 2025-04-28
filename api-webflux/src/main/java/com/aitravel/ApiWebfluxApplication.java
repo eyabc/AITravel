@@ -4,9 +4,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication(scanBasePackages = {
-  "com.aitravel.api",
-  "com.aitravel.user",
-  "com.aitravel.common",
+  "com.aitravel",
 })
 public class ApiWebfluxApplication {
 
