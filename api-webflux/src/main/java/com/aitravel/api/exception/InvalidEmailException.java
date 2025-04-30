@@ -1,4 +1,4 @@
-package com.aitravel.api.controller.exception;
+package com.aitravel.api.exception;
 
 public class InvalidEmailException extends RuntimeException {
   public InvalidEmailException(String message) {

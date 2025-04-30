@@ -1,4 +1,4 @@
-package com.aitravel.api.controller.jwt;
+package com.aitravel.api.jwt;
 
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;

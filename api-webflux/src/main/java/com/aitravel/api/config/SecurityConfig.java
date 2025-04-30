@@ -1,7 +1,7 @@
-package com.aitravel.api.controller.config;
+package com.aitravel.api.config;
 
-import com.aitravel.api.controller.jwt.JwtAuthenticationFilter;
-import com.aitravel.api.controller.jwt.JwtTokenProvider;
+import com.aitravel.api.jwt.JwtAuthenticationFilter;
+import com.aitravel.api.jwt.JwtTokenProvider;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

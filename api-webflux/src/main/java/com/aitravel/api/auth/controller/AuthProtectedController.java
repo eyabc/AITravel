@@ -1,4 +1,4 @@
-package com.aitravel.api.controller;
+package com.aitravel.api.auth.controller;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;

@@ -1,10 +1,9 @@
 package com.aitravel.api.auth.service;
 
-import com.aitravel.api.controller.dto.LoginRequest;
-import com.aitravel.api.controller.exception.InvalidEmailException;
-import com.aitravel.api.controller.exception.InvalidPasswordException;
-import com.aitravel.api.controller.jwt.JwtTokenProvider;
-import com.aitravel.api.controller.service.AuthService;
+import com.aitravel.api.dto.LoginRequest;
+import com.aitravel.api.exception.InvalidEmailException;
+import com.aitravel.api.exception.InvalidPasswordException;
+import com.aitravel.api.jwt.JwtTokenProvider;
 import com.aitravel.auth.service.RefreshTokenService;
 import com.aitravel.user.entity.User;
 import com.aitravel.user.service.UserService;
@@ -23,7 +22,7 @@ class AuthControllerTest {
   private final UserService userService = mock(UserService.class);
   private final JwtTokenProvider jwtTokenProvider = mock(JwtTokenProvider.class);
   private final RefreshTokenService refreshTokenService = mock(RefreshTokenService.class);
-  private final AuthService authService = new AuthService(userService, jwtTokenProvider, refreshTokenService);
+  private final AuthService authService = new AuthService(jwtTokenProvider, refreshTokenService, userService);
 
 
   @Nested

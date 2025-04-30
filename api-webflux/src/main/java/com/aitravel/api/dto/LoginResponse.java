@@ -1,4 +1,4 @@
-package com.aitravel.api.controller.dto;
+package com.aitravel.api.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

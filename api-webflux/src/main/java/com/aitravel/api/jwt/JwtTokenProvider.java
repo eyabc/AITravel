@@ -1,4 +1,4 @@
-package com.aitravel.api.controller.jwt;
+package com.aitravel.api.jwt;
 
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;

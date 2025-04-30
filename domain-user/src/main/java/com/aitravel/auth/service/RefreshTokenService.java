@@ -4,6 +4,7 @@ import com.aitravel.auth.entity.RefreshToken;
 import com.aitravel.auth.repository.RefreshTokenRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.Optional;
@@ -13,6 +14,10 @@ import java.util.Optional;
 public class RefreshTokenService {
 
   private final RefreshTokenRepository refreshTokenRepository;
+
+  public void save(RefreshToken refreshToken) {
+    refreshTokenRepository.save(refreshToken);
+  }
 
   public void saveOrUpdate(Long userId, String token, LocalDateTime expiration) {
     refreshTokenRepository.findByUserId(userId)
@@ -34,4 +39,14 @@ public class RefreshTokenService {
   public void deleteByUserId(Long userId) {
     refreshTokenRepository.deleteByUserId(userId);
   }
+
+  @Transactional
+  public RefreshToken rotateToken(Long userId, String newToken, LocalDateTime expiresAt) {
+    RefreshToken refreshToken = refreshTokenRepository.findByUserId(userId)
+      .orElseThrow(() -> new IllegalArgumentException("Refresh token not found"));
+
+    refreshToken.updateToken(newToken, expiresAt);
+    return refreshToken;
+  }
+
 }
