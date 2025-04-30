@@ -11,6 +11,7 @@ import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.Base64;
 import java.util.Date;
+import java.util.UUID;
 
 @Component
 public class JwtTokenProvider {
@@ -35,6 +36,7 @@ public class JwtTokenProvider {
     Date expiry = new Date(now.getTime() + jwtProperties.getExpiration());
 
     return Jwts.builder()
+      .claim("nonce", UUID.randomUUID().toString())
       .claims()
       .subject(String.valueOf(userId))
       .issuedAt(now)
@@ -59,6 +61,7 @@ public class JwtTokenProvider {
     LocalDateTime expiry = LocalDateTime.now().plusDays(7);
 
     return Jwts.builder()
+      .claim("nonce", UUID.randomUUID().toString())
       .subject(userId.toString())
       .issuedAt(new Date())
       .expiration(Date.from(expiry.atZone(ZoneId.systemDefault()).toInstant()))

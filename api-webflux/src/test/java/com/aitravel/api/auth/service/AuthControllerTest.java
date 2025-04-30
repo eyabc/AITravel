@@ -42,7 +42,7 @@ class AuthControllerTest {
       when(jwtTokenProvider.generateAccessToken(anyLong())).thenReturn("fake-jwt-token");
 
       // when
-      String token = authService.login(mail, password123);
+      String token = authService.login(mail, password123).accessToken();
 
       // then
       assertThat(token).isEqualTo("fake-jwt-token");
